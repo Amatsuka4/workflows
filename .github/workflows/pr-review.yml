@@ -1,0 +1,11 @@
+name: PR Security Check
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  ai-security-check:
+    uses: ./.github/workflows/ai-security-check.yml
+    secrets:
+      chat-token: ${{ secrets.DEEPSEEK_API_KEY }}

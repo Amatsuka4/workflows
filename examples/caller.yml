@@ -1,0 +1,14 @@
+# 各プロジェクトの .github/workflows/ に配置
+# Settings → Secrets に DEEPSEEK_API_KEY を登録
+
+name: PR Security Check
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  ai-security-check:
+    uses: Amatsuka4/workflows/.github/workflows/ai-security-check.yml@main
+    secrets:
+      chat-token: ${{ secrets.DEEPSEEK_API_KEY }}

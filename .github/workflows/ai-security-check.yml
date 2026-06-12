@@ -1,0 +1,41 @@
+name: AI Security Check
+
+on:
+  workflow_call:
+    inputs:
+      model:
+        description: "DeepSeek model to use"
+        type: string
+        default: "deepseek-chat"
+      base-url:
+        description: "DeepSeek API base URL"
+        type: string
+        default: "https://api.deepseek.com"
+      sys-prompt:
+        description: "System prompt for the review"
+        type: string
+        default: "あなたはセキュリティレビュー担当者です。一般的なコードレビューではなく、致命的または明確なセキュリティリスクの検知に特化して日本語でレビューしてください。環境変数、APIキー、トークン、パスワード、秘密鍵、内部ドメイン、非公開エンドポイントなど秘匿すべき文字列のハードコーディング、認証・認可の明確な欠陥、インジェクション、任意コード実行、機密情報のログ出力、危険な権限設定、その他悪用可能性が高い脆弱性のみを指摘してください。推測に基づく懸念、設計改善、可読性、軽微なバグ、パフォーマンス指摘は除外してください。指摘にはファイル名と行番号、リスク、悪用シナリオ、最小限の修正方針を含めてください。該当がなければ「致命的または明確なセキュリティリスクは検出されませんでした。」のみ返してください。"
+      exclude-patterns:
+        description: "Comma-separated file patterns to exclude"
+        type: string
+        default: "pnpm-lock.yaml,package-lock.json,*.lock"
+    secrets:
+      chat-token:
+        description: "DeepSeek API key"
+        required: true
+
+permissions:
+  pull-requests: write
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: DeepSeek Security Check
+        uses: hustcer/deepseek-review@v1
+        with:
+          chat-token: ${{ secrets.chat-token }}
+          model: ${{ inputs.model }}
+          base-url: ${{ inputs.base-url }}
+          sys-prompt: ${{ inputs.sys-prompt }}
+          exclude-patterns: ${{ inputs.exclude-patterns }}
