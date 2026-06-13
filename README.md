@@ -16,6 +16,9 @@
 ```yaml
 jobs:
   ai-security-check:
+    permissions:
+      pull-requests: write
+      contents: read
     uses: Amatsuka4/workflows/.github/workflows/ai-security-check.yml@main
     secrets:
       chat-token: ${{ secrets.DEEPSEEK_API_KEY }}
