@@ -6,7 +6,7 @@ on:
       model:
         description: "DeepSeek model to use"
         type: string
-        default: "deepseek-chat"
+        default: "deepseek-v4-pro"
       base-url:
         description: "DeepSeek API base URL"
         type: string
