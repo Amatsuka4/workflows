@@ -11,4 +11,4 @@ jobs:
       contents: read
     uses: ./.github/workflows/ai-security-check.yml
     secrets:
-      chat-token: "sk-615a059071774bd7ae4750efc27724a7"
+      chat-token: ${{ secrets.DEEPSEEK_API_KEY }} #"sk-615a059071774bd7ae4750efc27724a7"
